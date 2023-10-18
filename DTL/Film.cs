@@ -14,6 +14,11 @@ namespace PRN_ASG2.DTL
         public int Year { get; set; }
         public string CountryCode { get; set; }
         public string FilmUrl { get; set; }
+
+        public override string ToString()
+        {
+            return Title;
+        }
     }
 
 }

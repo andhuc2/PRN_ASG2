@@ -44,16 +44,19 @@ namespace PRN_ASG2.DAL
             return shows;
         }
 
-        public List<int> FindEmptySlot(DateTime date)
+        public List<int> FindEmptySlot(DateTime date, int roomId)
         {
-            string query = "SELECT Slot FROM Shows WHERE ShowDate = @date";
-            SqlParameter parameter = new SqlParameter("@date", date);
-            DataTable result = dao.ExecuteQuery(query, parameter);
+            string query = "SELECT Slot FROM Shows WHERE ShowDate = @date AND RoomID = @roomId";
+            SqlParameter[] parameters =
+            {
+                new SqlParameter("@roomId", roomId),
+                new SqlParameter("@date", date.Date)
+            };
+            DataTable result = dao.ExecuteQuery(query, parameters);
+            List<int> slots = Enumerable.Range(1, 9).ToList();
 
             if (result.Rows.Count == 0)
-                return null;
-
-            List<int> slots = Enumerable.Range(1, 9).ToList();
+                return slots;
 
             foreach (DataRow row in result.Rows)
             {
@@ -90,6 +93,39 @@ namespace PRN_ASG2.DAL
 
             return show;
         }
+
+        public List<Show> FindShowsByCriteria(Show showData)
+        {
+            string query = "SELECT * FROM Shows WHERE RoomID = @RoomID AND ShowDate = @ShowDate AND FilmID = @FilmID";
+
+            SqlParameter[] parameters =
+            {
+                new SqlParameter("@RoomID", showData.RoomID),
+                new SqlParameter("@ShowDate", showData.ShowDate.Date),
+                new SqlParameter("@FilmID", showData.FilmID)
+            };
+
+            DataTable result = dao.ExecuteQuery(query, parameters);
+            List<Show> shows = new List<Show>();
+
+            foreach (DataRow row in result.Rows)
+            {
+                Show show = new Show();
+
+                show.ShowID = (int)row["ShowID"];
+                show.RoomID = (int)row["RoomID"];
+                show.FilmID = (int)row["FilmID"];
+                show.ShowDate = (DateTime)row["ShowDate"];
+                show.Price = row["Price"] is DBNull ? null : (decimal?)row["Price"];
+                show.Status = row["Status"] is DBNull ? null : (bool?)row["Status"];
+                show.Slot = row["Slot"] is DBNull ? null : (int?)row["Slot"];
+
+                shows.Add(show);
+            }
+
+            return shows;
+        }
+
 
         public bool DeleteShow(int showId)
         {

@@ -62,6 +62,27 @@ namespace PRN_ASG2.DAL
             return room;
         }
 
+        public Room FindRoomByName(string name)
+        {
+            string query = "SELECT * FROM Rooms WHERE Name = @name";
+            SqlParameter parameter = new SqlParameter("@name", name);
+            DataTable result = dao.ExecuteQuery(query, parameter);
+
+            if (result.Rows.Count == 0)
+                return new Room();
+
+            DataRow row = result.Rows[0];
+            Room room = new Room
+            {
+                RoomId = (int)row["RoomID"],
+                Name = row["Name"].ToString(),
+                Rows = (int)row["NumberRows"],
+                Cols = (int)row["NumberCols"]
+            };
+
+            return room;
+        }
+
         public bool DeleteRoom(int roomId)
         {
             string query = "DELETE FROM Rooms WHERE RoomID = @RoomId";

@@ -64,6 +64,28 @@ namespace PRN_ASG2.DAL
             return film;
         }
 
+        public Film FindFilmByTitle(string title)
+        {
+            string query = "SELECT * FROM Films WHERE Title = @title";
+            SqlParameter parameter = new SqlParameter("@title", title);
+            DataTable result = dao.ExecuteQuery(query, parameter);
+
+            if (result.Rows.Count == 0)
+                return new Film();
+
+            DataRow row = result.Rows[0];
+            Film film = new Film();
+
+            film.FilmID = (int)row["FilmID"];
+            film.GenreID = (int)row["GenreID"];
+            film.Title = row["Title"].ToString();
+            film.Year = (int)row["Year"];
+            film.CountryCode = row["CountryCode"].ToString();
+            film.FilmUrl = row["FilmUrl"].ToString();
+
+            return film;
+        }
+
         public bool DeleteFilm(int filmId)
         {
             string query = "DELETE FROM Films WHERE FilmID = @FilmID";
