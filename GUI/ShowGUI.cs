@@ -29,7 +29,7 @@ namespace PRN_ASG2.GUI
 
         private void ShowGUI_Load(object sender, EventArgs e)
         {
-            //combo box search
+            //combo box search 
             RenderComboBox(room, new RoomDAO().FindAllRooms());
             RenderComboBox(film, new FilmDAO().FindAllFilms());
 
