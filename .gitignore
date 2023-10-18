@@ -1,0 +1,114 @@
+# Ignore Visual Studio files and directories
+.vscode/
+.vs/
+bin/
+obj/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Ignore NuGet packages
+packages/
+
+# Ignore user-specific files and settings
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+# Ignore log files and other runtime-generated files
+*.log
+*.dll
+*.jar
+*.pdb
+*.swp
+Thumbs.db
+
+# Ignore .NET build and project files
+*.csproj.user
+*.userprefs
+*.csproj.vspscc
+*.pubxml
+*.nupkg
+*.pfx
+*.snk
+bin/
+obj/
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+[Tt][Ee][Ss][Tt][Oo][Uu][Tt]/
+[Ll][Oo][Gg][Ss]/
+
+# Ignore WinForms designer-generated files
+*.designer.cs
+
+# Ignore Visual Studio Code settings
+.vscode/
+
+# Ignore user-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Ignore Rider settings
+.idea/
+
+# Ignore local database files
+*.mdf
+*.ldf
+
+# Ignore NuGet directories
+packages/
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Mono Auto Generated Files
+mono_crash.*
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# VS Code directories
+.vscode/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows shortcuts
+*.lnk
+
+# JetBrains Rider
+.idea/
+.idea/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Include the specific output directories if needed
+# /bin/
+# /obj/
