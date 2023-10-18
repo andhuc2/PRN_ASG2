@@ -51,15 +51,7 @@ namespace PRN_ASG2.GUI
 
         private void show_Click(object sender, EventArgs e)
         {
-            /*if (!isLogined)
-            {
-                MessageBox.Show("You need login to show!");
-            } else
-            {
-                new ShowGUI().Show();
-                this.Hide() ;
-            }*/
-            new ShowGUI().Show();
+            new ShowGUI(isLogined).Show();
             this.Hide();
         }
     }

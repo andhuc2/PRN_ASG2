@@ -1,4 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using PRN_ASG;
 using PRN_ASG.DAL;
 using PRN_ASG2.DAL;
 using PRN_ASG2.DTL;
@@ -16,9 +17,17 @@ namespace PRN_ASG2.GUI
 {
     public partial class ShowGUI : Form
     {
+        private Boolean isLogined = false;
+
         public ShowGUI()
         {
             InitializeComponent();
+        }
+
+        public ShowGUI(bool isLogined)
+        {
+            InitializeComponent();
+            this.isLogined = isLogined;
         }
 
         private void logout_Click(object sender, EventArgs e)
@@ -29,6 +38,17 @@ namespace PRN_ASG2.GUI
 
         private void ShowGUI_Load(object sender, EventArgs e)
         {
+            //check logined
+            if (!isLogined)
+            {
+                add.Hide();
+                logout.Hide();
+            }
+            else
+            {
+                login.Hide();
+            }
+
             //combo box search 
             RenderComboBox(room, new RoomDAO().FindAllRooms());
             RenderComboBox(film, new FilmDAO().FindAllFilms());
@@ -46,8 +66,12 @@ namespace PRN_ASG2.GUI
             table.Columns["ShowID"].Visible = false;
             table.Columns["Status"].Visible = false;
             newColumnButton("Booking");
-            newColumnButton("Edit");
-            newColumnButton("Delete");
+            //check logined?
+            if (isLogined)
+            {
+                newColumnButton("Edit");
+                newColumnButton("Delete");
+            }
         }
 
         private void RenderComboBox<T>(System.Windows.Forms.ComboBox comboBox, List<T> list)
@@ -142,6 +166,12 @@ namespace PRN_ASG2.GUI
             {
                 MessageBox.Show("Cant be empty!");
             }
+        }
+
+        private void login_Click(object sender, EventArgs e)
+        {
+            new FormLogin().Show();
+            this.Hide();
         }
     }
 }
