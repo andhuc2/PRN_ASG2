@@ -11,7 +11,7 @@ namespace PRN_ASG2.DTL
         public int ShowID { get; set; }
         public int RoomID { get; set; }
         public int FilmID { get; set; }
-        public DateTime ShowDate { get; set; }
+        public DateTime ShowDate { get; set; } 
         public decimal? Price { get; set; }
         public bool? Status { get; set; }
         public int? Slot { get; set; }
