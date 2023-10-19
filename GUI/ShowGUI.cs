@@ -60,6 +60,9 @@ namespace PRN_ASG2.GUI
 
         private void renderGrid(List<Show> data)
         {
+            //clear column
+            table.Columns.Clear();
+
             count.Text = "The number of shows: " + data.Count;
 
             table.DataSource = data;
@@ -108,6 +111,17 @@ namespace PRN_ASG2.GUI
 
         private void table_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            //booking
+            if (table.Columns[e.ColumnIndex].Name == "Booking")
+            {
+                int id = (int)table.Rows[e.RowIndex].Cells["ShowID"].Value;
+
+                new BookingGUI(id).ShowDialog();
+
+                //reload
+                ShowGUI_Load(sender, e);
+            }
+
             //edit
             if (table.Columns[e.ColumnIndex].Name == "Edit")
             {
