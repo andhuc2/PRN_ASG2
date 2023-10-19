@@ -30,7 +30,6 @@ namespace PRN_ASG2.GUI
         private void BookingGUI_Load(object sender, EventArgs e)
         {
             Show show = new ShowDAO().FindShowById(showID);
-            Room room = new RoomDAO().FindRoomById(show.RoomID);
 
             // Clear existing controls in the TableLayoutPanel
             roomMap.Controls.Clear();
@@ -38,7 +37,7 @@ namespace PRN_ASG2.GUI
             // Set TableLayoutPanel properties
             roomMap.Anchor = AnchorStyles.None;
 
-            renderRoomMap(room.Rows, room.Cols);
+            renderRoomMap();
             renderGrid(new BookingDAO().FindBookingsByShowID(showID));
 
         }
@@ -57,8 +56,35 @@ namespace PRN_ASG2.GUI
             newColumnButton("Delete");
         }
 
-        private void renderRoomMap(int rowCount, int columnCount)
+        private List<String> GetSeatStatusRoom()
         {
+            List<Booking> bookings = new BookingDAO().FindBookingsByShowID(showID);
+            List<string> ans = new List<string>();
+
+            foreach (Booking booking in bookings)
+            {
+                string[] temp = booking.SeatStatus.Split(',');
+
+                foreach (string item in temp)
+                {
+                    ans.Add(item);
+                }
+            }
+
+            return ans;
+        }
+
+        private void renderRoomMap()
+        {
+            roomMap.Controls.Clear();
+
+            Show show = new ShowDAO().FindShowById(showID);
+            Room room = new RoomDAO().FindRoomById(show.RoomID);
+            List<string> seatStatusRoom = GetSeatStatusRoom();
+
+            int rowCount = room.Rows;
+            int columnCount = room.Cols;
+
             for (int row = 0; row < rowCount; row++)
             {
                 for (int col = 0; col < columnCount; col++)
@@ -74,6 +100,8 @@ namespace PRN_ASG2.GUI
                     };
 
                     checkbox.Enabled = false;
+
+                    if (seatStatusRoom.Contains(row + "-" + col)) checkbox.Checked = true;
 
                     roomMap.Controls.Add(checkbox, col, row);
                 }
@@ -101,33 +129,17 @@ namespace PRN_ASG2.GUI
             }
         }
 
-        private void Checkbox_CheckedChanged(object sender, EventArgs e)
-        {
-            CheckBox checkbox = (CheckBox)sender;
-
-            if (checkbox.Checked)
-            {
-                if (checkbox.Checked)
-                {
-                    // Checkbox is checked
-                    int row = roomMap.GetRow(checkbox); // Get the row index
-                    int column = roomMap.GetColumn(checkbox); // Get the column index
-
-                    // Create a message to display the row and column index
-                    string message = $"Checkbox at Row {row}, Column {column} is checked.";
-                }
-            }
-            else
-            {
-                // Checkbox is unchecked
-                // Add your code for handling the unchecked state
-            }
-        }
-
 
         private void back_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void add_Click(object sender, EventArgs e)
+        {
+            new BookingAddGUI(showID).ShowDialog();
+            renderGrid(new BookingDAO().FindBookingsByShowID(showID));
+            renderRoomMap();
         }
     }
 }
